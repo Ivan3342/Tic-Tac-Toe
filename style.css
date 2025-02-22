@@ -2,16 +2,20 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+
 }
 
 #grid {
     display: grid;
     grid-template-columns: 100px 100px 100px;
-    gap: 10px;
+    gap: 0px;
     width: 100%;
     justify-content: center;
     align-items: center;
     margin: 26vh 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
 }
 
 .grid-field {
@@ -20,5 +24,48 @@
     border: 1px solid black;
     text-align: center;
     padding-top: calc(50px - 10px);
+    user-select: none;
 }
 
+.grid-field:nth-of-type(1) {
+    border-top: none;
+    border-left: none;
+}
+.grid-field:nth-of-type(2) {
+    border-top: none;
+}
+.grid-field:nth-of-type(3) {
+    border-top: none;
+    border-right: none;
+}
+
+.grid-field:nth-of-type(4) {
+    border-left: none;
+}
+
+.grid-field:nth-of-type(6) {
+    border-right: none;
+}
+
+.grid-field:nth-of-type(7) {
+    border-bottom: none;
+    border-left: none;
+}
+.grid-field:nth-of-type(8) {
+    border-bottom: none;
+}
+.grid-field:nth-of-type(9) {
+    border-bottom: none;
+    border-right: none;
+}
+
+h1 {
+    text-align: center;
+}
+
+#scoreboard {
+    display: grid;
+    grid-template-columns: auto;
+    border: 1px solid black;
+    justify-content: center;
+}

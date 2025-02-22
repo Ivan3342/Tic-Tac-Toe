@@ -1,21 +1,61 @@
 let tictactoe = {
-    grid: document.getElementById("grid"),
-    currentGrid: [
+    //Tabla i Igrac
+    gridSelector: document.getElementById("grid"), 
+    currentGridValue: [ //vrednost polja
         ["", "", ""],
         ["", "", ""],
         ["", "", ""]
     ],
-    currentPlayer: "X",  // Track the current player
+    currentPlayer: "X", // Trenutni igrac
+
+    //Score
+    dialog: document.getElementById("dialog"),
+    closeDialog: document.getElementById("close"),
+    scoreboard: document.getElementById("scoreboard"),
+    scores: [],
+
+    getWinner: function() {
+        //Otvaranje dialoga
+        this.dialog.showModal();
+        //Omogucavanje da se zatvori dialog
+        this.closeDialog.addEventListener("click", () => {
+            this.dialog.close();
+        });
+        //Uzima score
+        let score = {
+            name: document.getElementById("name").value,
+            score: 1
+        }
+        let imaUnosa = false;
+        for(let i = 0; i < this.scores.length; i++) {
+            if(score.name == this.scores[i].name) {
+                imaUnosa = true;
+                this.scores[i].score++;
+                break;
+            }
+            else {
+                imaUnosa = false;
+            }
+        }
+        if(imaUnosa == false) {
+            this.scores.push(score);
+        }
+        let innerHTMLValue = "";
+        this.scores.forEach(score => {
+            innerHTMLValue += `<div class="score-entry">${score.name}: ${score.score}</div>`
+        });
+        this.scoreboard.innerHTML = innerHTMLValue;
+    },
     check: function(e) {
         // Only update the box if it is empty (no "X" or "O")
         if (e.target.innerHTML === "") {
-            let id = parseInt(e.target.id); // Ensure the ID is treated as a number
+            let id = e.target.id; // Ensure the ID is treated as a number
             if (id < 3) {
-                this.currentGrid[0][id] = this.currentPlayer;
+                this.currentGridValue[0][id] = this.currentPlayer;
             } else if (id >= 3 && id < 6) {
-                this.currentGrid[1][id - 3] = this.currentPlayer;
+                this.currentGridValue[1][id - 3] = this.currentPlayer;
             } else {
-                this.currentGrid[2][id - 6] = this.currentPlayer;
+                this.currentGridValue[2][id - 6] = this.currentPlayer;
             }
 
             e.target.innerHTML = this.currentPlayer; // Update the UI immediately
@@ -23,6 +63,8 @@ let tictactoe = {
             if (this.checkWinner()) {
                 setTimeout(() => {
                     alert(`${this.currentPlayer} wins!`);
+                    this.getWinner();
+                    console.log(this.scores);
                     this.resetGame();
                 }, 10); // Slight delay to ensure UI update
                 return;
@@ -45,7 +87,7 @@ let tictactoe = {
     },
     checkWinner: function() {
         // Check rows
-        for (let row of this.currentGrid) {
+        for (let row of this.currentGridValue) {
             if (row.every(cell => cell === this.currentPlayer)) {
                 return true;
             }
@@ -54,26 +96,24 @@ let tictactoe = {
         // Check columns
         for (let col = 0; col < 3; col++) {
             if (
-                this.currentGrid[0][col] === this.currentPlayer &&
-                this.currentGrid[1][col] === this.currentPlayer &&
-                this.currentGrid[2][col] === this.currentPlayer
+                this.currentGridValue[0][col] === this.currentPlayer &&
+                this.currentGridValue[1][col] === this.currentPlayer &&
+                this.currentGridValue[2][col] === this.currentPlayer
             ) {
                 return true;
             }
         }
-
-        // Check diagonals
         if (
-            this.currentGrid[0][0] === this.currentPlayer &&
-            this.currentGrid[1][1] === this.currentPlayer &&
-            this.currentGrid[2][2] === this.currentPlayer
+            this.currentGridValue[0][0] === this.currentPlayer &&
+            this.currentGridValue[1][1] === this.currentPlayer &&
+            this.currentGridValue[2][2] === this.currentPlayer
         ) {
             return true;
         }
         if (
-            this.currentGrid[0][2] === this.currentPlayer &&
-            this.currentGrid[1][1] === this.currentPlayer &&
-            this.currentGrid[2][0] === this.currentPlayer
+            this.currentGridValue[0][2] === this.currentPlayer &&
+            this.currentGridValue[1][1] === this.currentPlayer &&
+            this.currentGridValue[2][0] === this.currentPlayer
         ) {
             return true;
         }
@@ -81,14 +121,14 @@ let tictactoe = {
         return false;
     },
     isTie: function() {
-        return this.currentGrid.flat().every(cell => cell !== "");
+        return this.currentGridValue.flat().every(cell => cell !== "");
     },
     resetGame: function() {
         let boxes = document.getElementsByClassName("grid-field");
         Array.from(boxes).forEach((box) => {
             box.innerHTML = ""; // Clear the grid
         });
-        this.currentGrid = [
+        this.currentGridValue = [
             ["", "", ""],
             ["", "", ""],
             ["", "", ""]
@@ -106,5 +146,4 @@ let tictactoe = {
     }
 }
 
-// Initialize the game
 tictactoe.init();
