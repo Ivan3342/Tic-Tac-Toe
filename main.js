@@ -13,7 +13,6 @@ let tictactoe = {
     closeDialog: document.getElementById("close"),
     scoreboard: document.getElementById("scoreboard"),
     scores: [],
-
     getWinner: function() {
         //Otvaranje dialoga
         this.dialog.showModal();
@@ -28,17 +27,15 @@ let tictactoe = {
         }
         let imaUnosa = false;
         for(let i = 0; i < this.scores.length; i++) {
-            if(score.name == this.scores[i].name) {
-                imaUnosa = true;
+            if(score.name === this.scores[i].name) {
                 this.scores[i].score++;
+                imaUnosa = true;
                 break;
-            }
-            else {
-                imaUnosa = false;
             }
         }
         if(imaUnosa == false) {
-            this.scores.push(score);
+            this.scores.push({name: document.getElementById("name").value,
+                score: 1});
         }
         let innerHTMLValue = "";
         this.scores.forEach(score => {
