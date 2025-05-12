@@ -12,36 +12,44 @@ let tictactoe = {
     dialog: document.getElementById("dialog"),
     closeDialog: document.getElementById("close"),
     scoreboard: document.getElementById("scoreboard"),
-    scores: [],
+    scores: JSON.parse(localStorage.getItem("scores")),
     getWinner: function() {
         //Otvaranje dialoga
         this.dialog.showModal();
         //Omogucavanje da se zatvori dialog
         this.closeDialog.addEventListener("click", () => {
+            let score = {
+                name: document.getElementById("name").value,
+                score: 1
+            }
+            let imaUnosa = false;
+            for(let i = 0; i < this.scores.length; i++) {
+                if(score.name === this.scores[i].name) {
+                    this.scores[i].score++;
+                    imaUnosa = true;
+                    break;
+                }
+            }
+            if(imaUnosa == false) {
+                this.scores.push({name: document.getElementById("name").value,
+                    score: 1});
+                localStorage.setItem("scores", this.scores)
+            }
+            let innerHTMLValue = "";
+            this.scores.forEach(score => {
+                innerHTMLValue += `<div class="score-entry">${score.name}: ${score.score}</div>`
+            }).join("");
+            this.scoreboard.innerHTML = innerHTMLValue;
+
             this.dialog.close();
         });
-        //Uzima score
-        let score = {
-            name: document.getElementById("name").value,
-            score: 1
-        }
-        let imaUnosa = false;
-        for(let i = 0; i < this.scores.length; i++) {
-            if(score.name === this.scores[i].name) {
-                this.scores[i].score++;
-                imaUnosa = true;
-                break;
-            }
-        }
-        if(imaUnosa == false) {
-            this.scores.push({name: document.getElementById("name").value,
-                score: 1});
-        }
-        let innerHTMLValue = "";
-        this.scores.forEach(score => {
-            innerHTMLValue += `<div class="score-entry">${score.name}: ${score.score}</div>`
+
+        this.closeDialog.removeEventListener("click", () => {
+            console.log("a")
         });
-        this.scoreboard.innerHTML = innerHTMLValue;
+
+        
+        //Uzima score
     },
     check: function(e) {
         // Only update the box if it is empty (no "X" or "O")
