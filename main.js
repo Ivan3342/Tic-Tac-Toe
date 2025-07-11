@@ -1,22 +1,18 @@
 let tictactoe = {
-    //Tabla i Igrac
     gridSelector: document.getElementById("grid"), 
-    currentGridValue: [ //vrednost polja
+    currentGridValue: [
         ["", "", ""],
         ["", "", ""],
         ["", "", ""]
     ],
-    currentPlayer: "X", // Trenutni igrac
+    currentPlayer: "X",
 
-    //Score
     dialog: document.getElementById("dialog"),
     closeDialog: document.getElementById("close"),
     scoreboard: document.getElementById("scoreboard"),
     scores: JSON.parse(localStorage.getItem("scores")),
     getWinner: function() {
-        //Otvaranje dialoga
         this.dialog.showModal();
-        //Omogucavanje da se zatvori dialog
         this.closeDialog.addEventListener("click", () => {
             let score = {
                 name: document.getElementById("name").value,
@@ -48,13 +44,10 @@ let tictactoe = {
             console.log("a")
         });
 
-        
-        //Uzima score
     },
     check: function(e) {
-        // Only update the box if it is empty (no "X" or "O")
         if (e.target.innerHTML === "") {
-            let id = e.target.id; // Ensure the ID is treated as a number
+            let id = e.target.id; 
             if (id < 3) {
                 this.currentGridValue[0][id] = this.currentPlayer;
             } else if (id >= 3 && id < 6) {
@@ -63,7 +56,7 @@ let tictactoe = {
                 this.currentGridValue[2][id - 6] = this.currentPlayer;
             }
 
-            e.target.innerHTML = this.currentPlayer; // Update the UI immediately
+            e.target.innerHTML = this.currentPlayer;
 
             if (this.checkWinner()) {
                 setTimeout(() => {
@@ -71,7 +64,7 @@ let tictactoe = {
                     this.getWinner();
                     console.log(this.scores);
                     this.resetGame();
-                }, 10); // Slight delay to ensure UI update
+                }, 10); 
                 return;
             }
 
@@ -79,26 +72,23 @@ let tictactoe = {
                 setTimeout(() => {
                     alert("It's a tie!");
                     this.resetGame();
-                }, 10); // Slight delay to ensure UI update
+                }, 10); 
                 return;
             }
 
-            this.togglePlayer(); // Switch players after a move
+            this.togglePlayer(); 
         }
     },
     togglePlayer: function() {
-        // Switch between "X" and "O"
         this.currentPlayer = (this.currentPlayer === "X") ? "O" : "X";
     },
     checkWinner: function() {
-        // Check rows
         for (let row of this.currentGridValue) {
             if (row.every(cell => cell === this.currentPlayer)) {
                 return true;
             }
         }
 
-        // Check columns
         for (let col = 0; col < 3; col++) {
             if (
                 this.currentGridValue[0][col] === this.currentPlayer &&
