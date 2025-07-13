@@ -46,6 +46,12 @@ body {
     border: 1px solid white;
     width: var(--grid-size);
     height: var(--grid-size);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--grid-size);
+    user-select: none;
 }
 
 & .grid-field:hover {
