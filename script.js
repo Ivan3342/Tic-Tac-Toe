@@ -1,28 +1,22 @@
-const leaderboardButton = document.getElementById("leaderboardButton");
-const leaderboard = document.getElementById("leaderboard");
-const closeButton = document.getElementById("closeButton")
-const grid = document.getElementById("grid");
-const fields = [...grid.children];
+//Leaderboard
+const Leaderboard = (() => {
+    const leaderboardObject = document.getElementById("leaderboard");
 
-leaderboardButton.addEventListener("click", (e) => {
-    leaderboard.classList.toggle("hidden")
+    const show = () => {
+        leaderboardObject.classList.toggle("hidden");
+    }
+    return { show }
+
+})()
+
+
+
+
+
+const leaderboardButton = document.querySelector("#leaderboardButton").addEventListener("click", ()=> {
+    Leaderboard.show();
 })
 
-closeButton.addEventListener("click", (e) => {
-    leaderboard.classList.toggle("hidden");
+const closeLeaderboardButton = document.querySelector("#closeButton").addEventListener("click", ()=>{
+    Leaderboard.show();
 })
-
-let userInput = "X";
-
-fields.forEach(field => {
-    field.addEventListener("click", (e) => {
-        e.target.innerHTML = userInput;
-        if(userInput == "X") {
-            userInput = "O";
-        }
-        else {
-            userInput = "X";
-        }
-    })
-});
-
