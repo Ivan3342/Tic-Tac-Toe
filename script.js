@@ -20,6 +20,7 @@ const Leaderboard = (() => {
     const leaderboardList = leaderboardObject.querySelector("ol")
 
     const updateLeaderboard = () => {
+        leaderboard.sort((a, b) => b.score - a.score);
         leaderboardList.innerHTML = "";
         leaderboard.forEach(player => {
             const newElement = document.createElement("li");
