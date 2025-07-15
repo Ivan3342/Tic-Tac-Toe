@@ -1,7 +1,7 @@
 //Leaderboard
 const Leaderboard = (() => {
     const leaderboardObject = document.querySelector("#leaderboard");
-    const leaderboard = [{name: 'Ivan', score: 20}];
+    const leaderboard = [{ name: 'Ivan', score: 20 }];
     const leaderboardList = leaderboardObject.querySelector("ol")
 
     const updateLeaderboard = () => {
@@ -49,10 +49,10 @@ const Gameboard = (() => {
             }
         }
         if (currentGrid.every(cell => cell)) {
-             playerStatusBox.innerHTML = `<h1>It's a Draw!</h1>`;
-             gridObject.style.pointerEvents = "none";
-             restartGameButton.classList.toggle("hidden");
-             return true;
+            playerStatusBox.innerHTML = `<h1>It's a Draw!</h1>`;
+            gridObject.style.pointerEvents = "none";
+            restartGameButton.classList.toggle("hidden");
+            return true;
         }
         return false;
     }
@@ -82,17 +82,17 @@ const Gameboard = (() => {
 
             currentGrid[e.target.id] = currentPlayer;
             e.target.innerHTML = currentPlayer;
-            
+
             let gameEnded = checkWinner();
 
-            if(gameEnded != true) {
+            if (gameEnded != true) {
                 changePlayer();
                 playerStatusBox.innerHTML = `<h1>${currentPlayer}'s Turn!</h1>`
             }
         }
     })
 
-    return {restartGame}
+    return { restartGame }
 })();
 
 const leaderboardButton = document.querySelector("#leaderboardButton").addEventListener("click", () => {
@@ -103,6 +103,6 @@ const closeLeaderboardButton = document.querySelector("#closeButton").addEventLi
     Leaderboard.show();
 })
 
-const restartGameButton = document.querySelector("#restartGameButton").addEventListener("click", ()=> {
+const restartGameButton = document.querySelector("#restartGameButton").addEventListener("click", () => {
     Gameboard.restartGame();
 })
