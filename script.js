@@ -1,8 +1,19 @@
 //Leaderboard
 const Leaderboard = (() => {
     const leaderboardObject = document.querySelector("#leaderboard");
+    const leaderboard = [{name: 'Ivan', score: 20}];
+    const leaderboardList = leaderboardObject.querySelector("ol")
+
+    const updateLeaderboard = () => {
+        leaderboard.forEach(player => {
+            const newElement = document.createElement("li");
+            newElement.innerHTML = `${player.name}: ${player.score}`;
+            leaderboardList.appendChild(newElement);
+        })
+    }
 
     const show = () => {
+        updateLeaderboard();
         leaderboardObject.classList.toggle("hidden");
     }
     return { show }
@@ -37,8 +48,6 @@ const Gameboard = (() => {
                 return true;
             }
         }
-
-        // Check for draw
         if (currentGrid.every(cell => cell)) {
              playerStatusBox.innerHTML = `<h1>It's a Draw!</h1>`;
              gridObject.style.pointerEvents = "none";
