@@ -1,3 +1,13 @@
+const WinnerInput = () => {
+    const winnerInputField = document.querySelector("#winnerName");
+    const submitButton = document.querySelector("#submitWinner");
+
+    const addNewWinner = () => {
+        const name = winnerInputField.value;
+        const score = 10;
+    }
+}
+
 //Leaderboard
 const Leaderboard = (() => {
     const leaderboardObject = document.querySelector("#leaderboard");
@@ -5,6 +15,7 @@ const Leaderboard = (() => {
     const leaderboardList = leaderboardObject.querySelector("ol")
 
     const updateLeaderboard = () => {
+        leaderboardList.innerHTML = "";
         leaderboard.forEach(player => {
             const newElement = document.createElement("li");
             newElement.innerHTML = `${player.name}: ${player.score}`;
