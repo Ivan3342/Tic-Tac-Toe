@@ -13,7 +13,8 @@ const Leaderboard = (() => {
 const Gameboard = (() => {
     const gridObject = document.querySelector("#grid");
     const playerStatusBox = document.querySelector("#playerStatusBox");
-    const currentGrid = ["", "", "", "", "", "", "", "", ""];
+    const restartGameButton = document.querySelector("#restartGameButton");
+    let currentGrid = ["", "", "", "", "", "", "", "", ""];
     let currentPlayer = "X";
 
     const checkWinner = () => {
@@ -32,6 +33,7 @@ const Gameboard = (() => {
             ) {
                 playerStatusBox.innerHTML = `<h1>${currentPlayer} Wins!</h1>`;
                 gridObject.style.pointerEvents = "none";
+                restartGameButton.classList.toggle("hidden");
                 return true;
             }
         }
@@ -40,6 +42,7 @@ const Gameboard = (() => {
         if (currentGrid.every(cell => cell)) {
              playerStatusBox.innerHTML = `<h1>It's a Draw!</h1>`;
              gridObject.style.pointerEvents = "none";
+             restartGameButton.classList.toggle("hidden");
              return true;
         }
         return false;
@@ -54,9 +57,20 @@ const Gameboard = (() => {
         }
     }
 
+    const restartGame = () => {
+        currentPlayer = "X";
+        currentGrid = ["", "", "", "", "", "", "", "", ""];
+        [...gridObject.children].forEach(field => {
+            field.innerHTML = "";
+        })
+        playerStatusBox.innerHTML = "";
+        gridObject.style.pointerEvents = "auto";
+        restartGameButton.classList.toggle("hidden");
+    }
+
     gridObject.addEventListener("click", (e) => {
         if (e.target.id != "grid") {
-            
+
             currentGrid[e.target.id] = currentPlayer;
             e.target.innerHTML = currentPlayer;
             
@@ -68,6 +82,8 @@ const Gameboard = (() => {
             }
         }
     })
+
+    return {restartGame}
 })();
 
 const leaderboardButton = document.querySelector("#leaderboardButton").addEventListener("click", () => {
@@ -76,4 +92,8 @@ const leaderboardButton = document.querySelector("#leaderboardButton").addEventL
 
 const closeLeaderboardButton = document.querySelector("#closeButton").addEventListener("click", () => {
     Leaderboard.show();
+})
+
+const restartGameButton = document.querySelector("#restartGameButton").addEventListener("click", ()=> {
+    Gameboard.restartGame();
 })
