@@ -1,17 +1,22 @@
-const WinnerInput = () => {
+const WinnerInput = (() => {
     const winnerInputField = document.querySelector("#winnerName");
     const submitButton = document.querySelector("#submitWinner");
 
     const addNewWinner = () => {
         const name = winnerInputField.value;
         const score = 10;
+        Leaderboard.addWinner(name, score);
+        document.querySelector("#winnerInput").classList.toggle("hidden")
+        winnerInputField.value = "";
     }
-}
+
+    return { addNewWinner };
+})();
 
 //Leaderboard
 const Leaderboard = (() => {
     const leaderboardObject = document.querySelector("#leaderboard");
-    const leaderboard = [{ name: 'Ivan', score: 20 }];
+    const leaderboard = [];
     const leaderboardList = leaderboardObject.querySelector("ol")
 
     const updateLeaderboard = () => {
@@ -23,11 +28,21 @@ const Leaderboard = (() => {
         })
     }
 
+    const addWinner = (newName, newScore) => {
+        const player = leaderboard.find(p => p.name === newName);
+        if (player) {
+            player.score += newScore;
+        } else {
+            leaderboard.push({ name: newName, score: newScore });
+        }
+        updateLeaderboard();
+    }
+
     const show = () => {
         updateLeaderboard();
         leaderboardObject.classList.toggle("hidden");
     }
-    return { show }
+    return { show, addWinner }
 
 })()
 
@@ -56,6 +71,7 @@ const Gameboard = (() => {
                 playerStatusBox.innerHTML = `<h1>${currentPlayer} Wins!</h1>`;
                 gridObject.style.pointerEvents = "none";
                 restartGameButton.classList.toggle("hidden");
+                document.querySelector("#winnerInput").classList.toggle("hidden");
                 return true;
             }
         }
@@ -63,6 +79,7 @@ const Gameboard = (() => {
             playerStatusBox.innerHTML = `<h1>It's a Draw!</h1>`;
             gridObject.style.pointerEvents = "none";
             restartGameButton.classList.toggle("hidden");
+            document.querySelector("#winnerInput").classList.toggle("hidden");
             return true;
         }
         return false;
@@ -116,4 +133,8 @@ const closeLeaderboardButton = document.querySelector("#closeButton").addEventLi
 
 const restartGameButton = document.querySelector("#restartGameButton").addEventListener("click", () => {
     Gameboard.restartGame();
+})
+
+document.querySelector("#submitWinner").addEventListener("click", () => {
+    WinnerInput.addNewWinner();
 })
