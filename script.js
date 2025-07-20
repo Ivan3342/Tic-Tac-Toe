@@ -80,7 +80,6 @@ const Gameboard = (() => {
             playerStatusBox.innerHTML = `<h1>It's a Draw!</h1>`;
             gridObject.style.pointerEvents = "none";
             restartGameButton.classList.toggle("hidden");
-            document.querySelector("#winnerInput").classList.toggle("hidden");
             return true;
         }
         return false;
